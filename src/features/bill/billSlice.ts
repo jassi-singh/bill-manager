@@ -22,7 +22,7 @@ const initialState: BillState = {
     date: new Date().getTime(),
   },
   showBillForm: false,
-  count: 2,
+  count: 0,
   formType: "add",
   selectedCategory: "All Categories",
   monthlyLimit: 5000,
