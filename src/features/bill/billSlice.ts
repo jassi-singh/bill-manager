@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { Bill, Categories } from "../../types";
+import { loadState, saveState } from "../../utills";
 
 export interface BillState {
   bills: Array<Bill>;
@@ -12,8 +13,10 @@ export interface BillState {
   monthlyLimit: number;
 }
 
+const persistedState = loadState();
+
 const initialState: BillState = {
-  bills: [],
+  bills: persistedState !== undefined ? persistedState.bills : [],
   billForm: {
     id: 0,
     description: "",
@@ -22,10 +25,11 @@ const initialState: BillState = {
     date: new Date().getTime(),
   },
   showBillForm: false,
-  count: 0,
+  count: persistedState !== undefined ? persistedState.count : 0,
   formType: "add",
   selectedCategory: "All Categories",
-  monthlyLimit: 5000,
+  monthlyLimit:
+    persistedState !== undefined ? persistedState.monthlyLimit : 5000,
 };
 
 export const billSlice = createSlice({
@@ -38,6 +42,11 @@ export const billSlice = createSlice({
       state.showBillForm = false;
       state.billForm = initialState.billForm;
       state.count++;
+      saveState({
+        bills: state.bills,
+        count: state.count,
+        monthlyLimit: state.monthlyLimit,
+      });
     },
     updateBill: (state) => {
       const index = state.bills.findIndex(
@@ -46,9 +55,19 @@ export const billSlice = createSlice({
       state.bills[index] = state.billForm;
       state.showBillForm = false;
       state.billForm = initialState.billForm;
+      saveState({
+        bills: state.bills,
+        count: state.count,
+        monthlyLimit: state.monthlyLimit,
+      });
     },
     deleteBill: (state, action: PayloadAction<number>) => {
       state.bills = state.bills.filter((bill) => bill.id !== action.payload);
+      saveState({
+        bills: state.bills,
+        count: state.count,
+        monthlyLimit: state.monthlyLimit,
+      });
     },
     showBillForm: (state, action: PayloadAction<Bill | undefined>) => {
       if (action.payload !== undefined) {
@@ -73,6 +92,11 @@ export const billSlice = createSlice({
     },
     updateMonthlyLimit: (state, action: PayloadAction<number>) => {
       state.monthlyLimit = action.payload;
+      saveState({
+        bills: state.bills,
+        count: state.count,
+        monthlyLimit: state.monthlyLimit,
+      });
     },
   },
 });
