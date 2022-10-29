@@ -1,3 +1,57 @@
+# Bill IT - React.js, Redux, Tailwind, Chart.js
+
+(by [@jaswinderSingh](https://www.linkedin.com/in/jaswinder-singh-32a01118b/))
+
+---
+
+### A demo app to illustrate various features of a react.js application:
+
+**Check the deployed app here : [Bill IT](https://bill-manager.vercel.app/dashboard).**
+
+---
+
+## The app uses following libraries/packages for development, build and deployment:
+
+- **[React.js](https://reactjs.org/)** - An open-source JavaScript library for building user interfaces & single-page or mobile applications.
+- **[Redux.js](https://redux.js.org/)** - A Predictable State Container for JS Apps
+- **[React-Router-Dom](https://www.npmjs.com/package/react-router-dom)** - A package that provides the core routing functionality for React Router
+- **[Chart.js](https://www.chartjs.org/)** - an open-source JavaScript library to draw different types of charts by using the HTML5 canvas element
+- **[Vercel](https://vercel.com/)** - for Instant static deploys
+- **[TypeScript](https://github.com/Microsoft/TypeScript)** - a superset of JavaScript programming language that compiles to clean JavaScript output.
+- **[Tailwindcss](https://www.npmjs.com/package/tailwindcss)** - A utility-first CSS framework for rapidly building custom user interfaces.
+- **[React-Icons](https://www.npmjs.com/package/react-icons)** - Include popular icons in your React projects easily with react-icons, which utilizes ES6 imports that allows you to include only the icons that your project is using.
+- **[clsx](https://www.npmjs.com/package/clsx)** - A tiny (228B) utility for constructing className strings conditionally.Also serves as a faster & smaller drop-in replacement for the classnames module.
+
+## Functional requirements:
+
+**LEVEL-1:**
+
+- The user must be able to manually add, edit and remove bills. (update the state locally)
+- The user must be able to filter bills by category. (category filter dropdown)
+- Draw a time-series chart of the monthly billing cycle.
+
+**LEVEL-2:**
+
+- Adithya wants to be able to see a minimum number of bills that should be paid (n), such that their
+  total value does not exceed the monthly budget value while meeting the condition that no more bills
+  can be added from the remaining bills.. Highlight all the bills that should be paid.
+
+---
+
+## Screenshots:
+
+1. **Analytics** - Shows monthly bills in a graph
+
+![Analytics](analytics.png)
+
+2. **Create/Edit Bill** - Create or edit bills on this screen using a simple form
+
+![Create/Edit Bill](bill-form.png)
+
+3. **List all Bills** - Show a list of bills with features like add, edit and delete. Also show a warning to pay the when total value exceeds the monthly limit.
+
+![List all Bills Screen](bill-list.png)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
