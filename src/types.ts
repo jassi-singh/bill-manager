@@ -14,7 +14,7 @@ export enum Categories {
 
 export type Bill = {
   id: number;
-  category: string;
+  category: Categories | "All Categories";
   description: string;
   amount: number;
   date: number;

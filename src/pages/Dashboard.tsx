@@ -1,26 +1,25 @@
 import React from "react";
 import BillList from "../features/bill/BillList";
 import AddBillButton from "../features/bill/components/AddBillButton";
-import { Categories } from "../types";
+import SelectCategoryButton from "../features/bill/components/SelectCategoryButton";
+import TotalAmount from "../features/bill/components/TotalAmount";
 
 const Dashboard = () => {
   return (
-    <div className="w-full h-full bg-white rounded-md drop-shadow-md relative">
+    <div className="h-full flex flex-col">
       <div className="flex justify-between items-center p-4">
         <div>My Bills</div>
         <div>
-          <select className="border border-gray-300 rounded-md px-4 py-2 mx-6">
-            <option value="All Categories">All Categories</option>
-            {Object.values(Categories).map((b) => (
-              <option key={b} value={b}>
-                {b}
-              </option>
-            ))}
-          </select>
+          <SelectCategoryButton />
           <AddBillButton />
         </div>
       </div>
-      <BillList />
+      <div className="grow overflow-auto">
+        <BillList />
+      </div>
+      <div className="">
+        <TotalAmount />
+      </div>
     </div>
   );
 };

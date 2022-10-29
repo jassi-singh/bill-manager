@@ -8,7 +8,7 @@ const BillList = () => {
 
   return (
     <table className="w-full text-sm">
-      <thead className="bg-gray-100">
+      <thead className="bg-gray-100 sticky top-0">
         <tr>
           <th className="p-2">#Id</th>
           <th>Category</th>

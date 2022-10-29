@@ -7,7 +7,9 @@ const Layout = () => {
     <div className="flex">
       <Sidebar />
       <div className="flex-1 h-screen bg-gray-200 p-6">
-        <Outlet />
+        <div className="w-full h-full bg-white rounded-md drop-shadow-md grid items-center">
+          <Outlet />
+        </div>
       </div>
       <BillForm />
     </div>

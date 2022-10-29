@@ -1,9 +1,7 @@
-import React from 'react'
+import MonthlyBillingChart from "../features/bill/components/MonthlyBillingChart";
 
 const Analytics = () => {
-  return (
-    <div>Analytics</div>
-  )
-}
+  return <MonthlyBillingChart />;
+};
 
-export default Analytics
+export default Analytics;

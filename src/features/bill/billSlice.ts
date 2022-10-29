@@ -8,25 +8,11 @@ export interface BillState {
   billForm: Bill;
   count: number;
   formType: "edit" | "add";
+  selectedCategory: Categories | "All Categories";
 }
 
 const initialState: BillState = {
-  bills: [
-    {
-      id: 1,
-      description: "Dominoes are very good this is the best food",
-      category: Categories.FoodNDining,
-      amount: 430,
-      date: new Date().getTime(),
-    },
-    {
-      id: 2,
-      description: "Car wash",
-      category: Categories.Utility,
-      amount: 500,
-      date: new Date().getTime(),
-    },
-  ],
+  bills: [],
   billForm: {
     id: 0,
     description: "",
@@ -37,6 +23,7 @@ const initialState: BillState = {
   showBillForm: false,
   count: 2,
   formType: "add",
+  selectedCategory: "All Categories",
 };
 
 export const billSlice = createSlice({
@@ -76,15 +63,12 @@ export const billSlice = createSlice({
     updateFormBill: (state, action: PayloadAction<Bill>) => {
       state.billForm = action.payload;
     },
-    // increment: (state) => {
-    //   state.value += 1;
-    // },
-    // decrement: (state) => {
-    //   state.value -= 1;
-    // },
-    // incrementByAmount: (state, action: PayloadAction<number>) => {
-    //   state.value += action.payload;
-    // },
+    changeCategory: (
+      state,
+      action: PayloadAction<Categories | "All Categories">
+    ) => {
+      state.selectedCategory = action.payload;
+    },
   },
 });
 
@@ -95,21 +79,56 @@ export const {
   hideBillForm,
   updateFormBill,
   updateBill,
+  changeCategory,
 } = billSlice.actions;
 
-export const selectBillList = (state: RootState) => state.bill.bills;
+export const selectBillList = (state: RootState) =>
+  state.bill.selectedCategory === "All Categories"
+    ? state.bill.bills
+    : state.bill.bills.filter(
+        (bill) => bill.category === state.bill.selectedCategory
+      );
 export const selectShowBillForm = (state: RootState) => state.bill.showBillForm;
 export const selectBillForm = (state: RootState) => state.bill.billForm;
 export const selectFormType = (state: RootState) => state.bill.formType;
-// We can also write thunks by hand, which may contain both sync and async logic.
-// Here's an example of conditionally dispatching actions based on current state.
-// export const incrementIfOdd =
-//   (amount: number): AppThunk =>
-//   (dispatch, getState) => {
-//     const currentValue = selectCount(getState());
-//     if (currentValue % 2 === 1) {
-//       dispatch(incrementByAmount(amount));
-//     }
-//   };
+export const selectTotalAmount = (state: RootState) => {
+  return state.bill.selectedCategory === "All Categories"
+    ? state.bill.bills.reduce((acc, bill) => acc + bill.amount, 0)
+    : state.bill.bills
+        .filter((bill) => bill.category === state.bill.selectedCategory)
+        .reduce((acc, bill) => acc + bill.amount, 0);
+};
+export const selectTotalAmountByMonth = (state: RootState) => {
+  const bills =
+    state.bill.selectedCategory === "All Categories"
+      ? state.bill.bills
+      : state.bill.bills.filter(
+          (bill) => bill.category === state.bill.selectedCategory
+        );
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const totalAmountByEachMonth = months.map((month) => {
+    const billsByMonth = bills.filter(
+      (bill) => new Date(bill.date).getMonth() === months.indexOf(month)
+    );
+    return {
+      month,
+      amount: billsByMonth.reduce((acc, bill) => acc + bill.amount, 0),
+    };
+  });
+  return totalAmountByEachMonth;
+};
 
 export default billSlice.reducer;

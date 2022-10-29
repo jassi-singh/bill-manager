@@ -12,7 +12,7 @@ const BillItem = (params: Bill) => {
       <td>{params.category}</td>
       <td className="max-w-0">{params.description}</td>
       <td>{new Date(params.date).toISOString().split("T")[0]}</td>
-      <td>{params.amount}</td>
+      <td>$ {params.amount.toFixed(2)}</td>
       <td>
         <button
           onClick={() => dispatch(showBillForm(params))}
