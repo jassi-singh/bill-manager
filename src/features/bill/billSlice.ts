@@ -9,6 +9,7 @@ export interface BillState {
   count: number;
   formType: "edit" | "add";
   selectedCategory: Categories | "All Categories";
+  monthlyLimit: number;
 }
 
 const initialState: BillState = {
@@ -24,6 +25,7 @@ const initialState: BillState = {
   count: 2,
   formType: "add",
   selectedCategory: "All Categories",
+  monthlyLimit: 5000,
 };
 
 export const billSlice = createSlice({
@@ -69,6 +71,9 @@ export const billSlice = createSlice({
     ) => {
       state.selectedCategory = action.payload;
     },
+    updateMonthlyLimit: (state, action: PayloadAction<number>) => {
+      state.monthlyLimit = action.payload;
+    },
   },
 });
 
@@ -80,6 +85,7 @@ export const {
   updateFormBill,
   updateBill,
   changeCategory,
+  updateMonthlyLimit,
 } = billSlice.actions;
 
 export const selectBillList = (state: RootState) =>
@@ -129,6 +135,26 @@ export const selectTotalAmountByMonth = (state: RootState) => {
     };
   });
   return totalAmountByEachMonth;
+};
+export const selectMonthlyLimit = (state: RootState) => state.bill.monthlyLimit;
+
+export const selectBillsToPay = (state: RootState) => {
+  const totalAmount = state.bill.bills.reduce(
+    (acc, bill) => acc + bill.amount,
+    0
+  );
+  const monthlyLimit = state.bill.monthlyLimit;
+  if (totalAmount <= monthlyLimit) return [];
+  var bills = state.bill.bills.slice().sort((a, b) => a.amount - b.amount);
+  const billsToDelete = [];
+  let total = totalAmount;
+  for (let i = bills.length - 1; i >= 0; i--) {
+    if (total > monthlyLimit) {
+      total -= bills[i].amount;
+      billsToDelete.push(bills[i].id);
+    } else break;
+  }
+  return billsToDelete;
 };
 
 export default billSlice.reducer;
